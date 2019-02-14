@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { RouterStore } from 'mobx-react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTag, faHeart, faComment } from '@fortawesome/free-solid-svg-icons';
+import { faTag, faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faNewspaper, faHeart, faComment } from '@fortawesome/free-regular-svg-icons';
 
 export interface HomeProps {
   routing: RouterStore;
@@ -14,7 +15,7 @@ const PageWrapper = styled.div`
   width: 100%;
   height: 100%;
   background-color: #fafbfc;
-`
+`;
 
 const Header = styled.div`
   display: flex;
@@ -68,11 +69,35 @@ const Header = styled.div`
       }
     }
   }
-`
+`;
+
+const PageTitle = styled.h2`
+  display: flex;
+  align-items: center;
+  margin: 0 0 24px;
+
+  .page-title {
+    &__icon {
+      margin-right: 7px;
+      font-size: 28px;
+    }
+    &__title {
+      font-size: 24px;
+      font-weight: 500;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: #3e474d;
+    }
+  }
+
+`;
 
 const PageBody = styled.div`
   width: 100%;
   max-width: 960px;
+  min-height: calc(100vh - 64px); /* Header height*/
   margin: 0 auto;
   padding: 33px 0 71px;
 `;
@@ -86,10 +111,13 @@ const PostCardList = styled.ul`
 const PostCard = styled.li`
   width: 100%;
   /* height: 197px; */
-  margin-bottom: 24px;
   padding: 24px;
   background-color: #fff;
   border: 1px solid #eaf1f5;
+
+  & + & {
+    margin-top: 24px;
+  }
 
   .post-card {
     &__title {
@@ -109,18 +137,27 @@ const PostCard = styled.li`
     }
 
     &__tag {
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 500;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1.5;
-      letter-spacing: normal;
-      color: #3e474d;
+      display: flex;
+      align-items: center;
       margin-right: 20px;
 
       &:last-child {
         margin-right: 0;
+      }
+
+      &__icon {
+        margin-right: 8px;
+        font-size: 16px;
+      }
+
+      &__name {
+        font-size: 12px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1;
+        letter-spacing: normal;
+        color: #3e474d;
       }
     }
 
@@ -148,39 +185,122 @@ const PostCard = styled.li`
     }
 
     &__like {
-      font-size: 12px;
-      font-weight: 500;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1.5;
-      letter-spacing: normal;
+      display: flex;
+      align-items: center;
       margin-right: 20px;
+
+      &__icon {
+        margin-right: 8px;
+        font-size: 16px;
+      }
+
+      &__num {
+        font-size: 12px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1;
+        letter-spacing: normal;
+      }
     }
 
     &__comment {
-      font-size: 12px;
-      font-weight: 500;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1.5;
-      letter-spacing: normal;
+      display: flex;
+      align-items: center;
+      margin-right: 20px;
+
+      &__icon {
+        margin-right: 8px;
+        font-size: 16px;
+      }
+
+      &__num {
+        font-size: 12px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1;
+        letter-spacing: normal;
+      }
     }
 
     &__author {
       display: flex;
+      align-items: center;
       color: #3e474d;
       font-size: 12px;
       font-weight: 500;
       font-style: normal;
       font-stretch: normal;
-      line-height: 1.5;
+      line-height: 1;
       letter-spacing: normal;
+
+      &__icon {
+        display: inline-block;
+        margin-right: 8px;
+        width: 24px;
+        height: 24px;
+        background: url(images/common/oval@2x.png) no-repeat;
+        background-size: 100%;
+      }
+
+      &__name {
+        margin-right: 8px;
+      }
+
+      &__time {
+
+      }
     }
   }
 `;
 
-const testBtn = styled.button`
-`
+const Pager = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 51px auto 65px;
+  width: 140px;
+
+  .pager {
+    &__num {
+      margin: 0 32px;
+      width: 11px;
+      height: 27px;
+      font-size: 18px;
+      font-weight: bold;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: #879399;
+    }
+
+    &__btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 32px;
+      height: 32px;
+      background-color: #fff;
+      border: 1px solid #eaf1f5;
+      border-radius: 50%;
+      font-size: 24px;
+
+      &--prev {
+        .pager__btn__icon {
+          transform: translateX(-1px);
+        }
+      }
+
+      &--next {
+        .pager__btn__icon {
+          transform: translateX(1px);
+        }
+      }
+    }
+  }
+`;
 
 @inject('routing')
 @observer
@@ -201,24 +321,44 @@ export default class Home extends React.Component<HomeProps, any> {
         </Header>
 
         <PageBody>
-          <h2>注目記事</h2>
+          <PageTitle>
+            <span className="page-title__icon">
+              <FontAwesomeIcon icon={faNewspaper} color="#3e474d" />
+            </span>
+            <span className="page-title__title">注目記事</span>
+          </PageTitle>
 
           <PostCardList>
             <PostCard>
               <h3 className="post-card__title">iOSエンジニアがフリーランス案件の面談で良く聞かれる質問集をまとめてみた</h3>
               <div className="post-card__tag-group">
-                <span className="post-card__tag">
-                  <FontAwesomeIcon icon={faTag} color="#a8b7bf"/>フリーランス
-                </span>
-                <span className="post-card__tag">
-                  <FontAwesomeIcon icon={faTag} color="#a8b7bf" />Swift
-                </span>
-                <span className="post-card__tag">
-                  <FontAwesomeIcon icon={faTag} color="#a8b7bf" />キャリア
-                </span>
-                <span className="post-card__tag">
-                  <FontAwesomeIcon icon={faTag} color="#a8b7bf" />iOS
-                </span>
+                <div className="post-card__tag">
+                  <span className="post-card__tag__icon">
+                    <FontAwesomeIcon icon={faTag} color="#a8b7bf" />
+                  </span>
+                  <span className="post-card__tag__name">フリーランス</span>
+                </div>
+
+                <div className="post-card__tag">
+                  <span className="post-card__tag__icon">
+                    <FontAwesomeIcon icon={faTag} color="#a8b7bf" />
+                  </span>
+                  <span className="post-card__tag__name">Swift</span>
+                </div>
+
+                <div className="post-card__tag">
+                  <span className="post-card__tag__icon">
+                    <FontAwesomeIcon icon={faTag} color="#a8b7bf" />
+                  </span>
+                  <span className="post-card__tag__name">キャリア</span>
+                </div>
+
+                <div className="post-card__tag">
+                  <span className="post-card__tag__icon">
+                    <FontAwesomeIcon icon={faTag} color="#a8b7bf" />
+                  </span>
+                  <span className="post-card__tag__name">iOS</span>
+                </div>
               </div>
 
               <div className="post-card__text">
@@ -228,16 +368,23 @@ export default class Home extends React.Component<HomeProps, any> {
               <div className="post-card__bottom">
                 <div className="post-card__reaction">
                   <div className="post-card__like">
-                    <FontAwesomeIcon icon={['far', 'heart']} color="#a8b7bf" />324
+                    <span className="post-card__like__icon">
+                      <FontAwesomeIcon icon={faHeart} color="#879399" />
+                    </span>
+                    <span className="post-card__like__num">324</span>
                   </div>
                   <div className="post-card__comment">
-                    <FontAwesomeIcon icon={['far', 'comment']} color="#a8b7bf" />1728
+                    <span className="post-card__comment__icon">
+                      <FontAwesomeIcon icon={faComment} color="#879399" />
+                    </span>
+                    <span className="post-card__comment__num">728</span>
                   </div>
                 </div>
 
                 <div className="post-card__author">
-                  <div className="post-card__user-name">tamappe</div>
-                  <div className="post-card__timestamp">@1時間前</div>
+                  <span className="post-card__author__icon"></span>
+                  <div className="post-card__author__name">tamappe</div>
+                  <div className="post-card__author__time">@1時間前</div>
                 </div>
               </div>
             </PostCard>
@@ -245,10 +392,33 @@ export default class Home extends React.Component<HomeProps, any> {
             <PostCard>
               <h3 className="post-card__title">iOSエンジニアがフリーランス案件の面談で良く聞かれる質問集をまとめてみた</h3>
               <div className="post-card__tag-group">
-                <span className="post-card__tag">フリーランス</span>
-                <span className="post-card__tag">Swift</span>
-                <span className="post-card__tag">キャリア</span>
-                <span className="post-card__tag">iOS</span>
+                <div className="post-card__tag">
+                  <span className="post-card__tag__icon">
+                    <FontAwesomeIcon icon={faTag} color="#a8b7bf" />
+                  </span>
+                  <span className="post-card__tag__name">フリーランス</span>
+                </div>
+
+                <div className="post-card__tag">
+                  <span className="post-card__tag__icon">
+                    <FontAwesomeIcon icon={faTag} color="#a8b7bf" />
+                  </span>
+                  <span className="post-card__tag__name">Swift</span>
+                </div>
+
+                <div className="post-card__tag">
+                  <span className="post-card__tag__icon">
+                    <FontAwesomeIcon icon={faTag} color="#a8b7bf" />
+                  </span>
+                  <span className="post-card__tag__name">キャリア</span>
+                </div>
+
+                <div className="post-card__tag">
+                  <span className="post-card__tag__icon">
+                    <FontAwesomeIcon icon={faTag} color="#a8b7bf" />
+                  </span>
+                  <span className="post-card__tag__name">iOS</span>
+                </div>
               </div>
 
               <div className="post-card__text">
@@ -257,21 +427,41 @@ export default class Home extends React.Component<HomeProps, any> {
 
               <div className="post-card__bottom">
                 <div className="post-card__reaction">
-                  <div className="post-card__like">324</div>
-                  <div className="post-card__comment">1728</div>
+                  <div className="post-card__like">
+                    <span className="post-card__like__icon">
+                      <FontAwesomeIcon icon={faHeart} color="#879399" />
+                    </span>
+                    <span className="post-card__like__num">324</span>
+                  </div>
+                  <div className="post-card__comment">
+                    <span className="post-card__comment__icon">
+                      <FontAwesomeIcon icon={faComment} color="#879399" />
+                    </span>
+                    <span className="post-card__comment__num">728</span>
+                  </div>
                 </div>
 
                 <div className="post-card__author">
-                  <div className="post-card__user-name">tamappe</div>
-                  <div className="post-card__timestamp">@1時間前</div>
+                  <span className="post-card__author__icon"></span>
+                  <div className="post-card__author__name">tamappe</div>
+                  <div className="post-card__author__time">@1時間前</div>
                 </div>
               </div>
             </PostCard>
-
-
           </PostCardList>
 
-          home<br/>
+          <Pager>
+            <div className="pager__btn pager__btn--prev">
+              <span className="pager__btn__icon"><FontAwesomeIcon icon={faAngleLeft} color="#879399" /></span>
+            </div>
+
+            <span className="pager__num">4</span>
+
+            <div className="pager__btn pager__btn--next">
+              <span className="pager__btn__icon"><FontAwesomeIcon icon={faAngleRight} color="#879399" /></span>
+            </div>
+          </Pager>
+
           <Link to="/mypage">[ mypage ]</Link> 
         </PageBody>
 
