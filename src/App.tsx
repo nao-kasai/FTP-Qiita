@@ -1,28 +1,25 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { Route, Switch, withRouter } from "react-router-dom";
 import './App.css';
+import { inject, observer } from 'mobx-react';
+import Top from "./pages/Top";
+import MyPage from "./pages/MyPage";
 
-class App extends Component {
+@inject('routing')
+@observer
+class App extends Component<any, any> {
   render() {
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <Switch location={this.props.location}>
+          <Route path="/" exact component={Top} />
+          <Route path="/mypage" exact component={MyPage} />
+        </Switch>
       </div>
     );
   }
 }
 
-export default App;
+// ※これ書かないとページ遷移できても、画面がレンダーされない！
+export default withRouter(App);

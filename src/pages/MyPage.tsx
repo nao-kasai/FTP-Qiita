@@ -1,0 +1,21 @@
+import * as React from 'react';
+import { observer } from 'mobx-react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+
+export interface MyPageProps {
+}
+
+const MyPageWrapper = styled.div`
+`
+@observer
+export default class MyPage extends React.Component<MyPageProps, any> {
+  public render() {
+    return (
+      <MyPageWrapper>
+        MyPage<br/>
+        <Link to={"/"}>[ HOME ]</Link>
+      </MyPageWrapper>
+    );
+  }
+}
