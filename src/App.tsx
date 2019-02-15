@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { Route, Switch, withRouter } from "react-router-dom";
+import { Route, Switch, withRouter } from 'react-router-dom';
 import './App.css';
 import { inject, observer } from 'mobx-react';
-import Top from "./pages/Top";
-import MyPage from "./pages/MyPage";
+import Top from './pages/Top';
+import MyPage from './pages/MyPage';
+import Detail from './pages/Detail';
+import Page404 from './pages/Page404';
+import Login from './pages/Login';
 
 @inject('routing')
 @observer
@@ -15,6 +18,9 @@ class App extends Component<any, any> {
         <Switch location={this.props.location}>
           <Route path="/" exact component={Top} />
           <Route path="/mypage" exact component={MyPage} />
+          <Route path="/detail" exact component={Detail} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/404" exact component={Page404} />
         </Switch>
       </div>
     );

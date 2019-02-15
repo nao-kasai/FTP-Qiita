@@ -83,7 +83,10 @@ export default class Home extends React.Component<HomeProps, any> {
 
           <Pager />
           
-          <Link to="/mypage">[ mypage ]</Link> 
+          <Link to="/mypage">[ mypage ]</Link> <br/>
+          <Link to="/detail">[ detail ]</Link> <br/>
+          <Link to="/404">[ 404 ]</Link><br/>
+          <Link to="/login">[ login ]</Link>
         </PageBody>
 
       </PageWrapper>
