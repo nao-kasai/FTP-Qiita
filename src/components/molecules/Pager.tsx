@@ -2,82 +2,66 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { COLORS } from '../../constants';
 
 export interface PagerProps {
 }
 
-const PagerWrapper = styled.div`
+const PagerInner = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 51px auto 65px;
-  width: 140px;
-
-  .pager {
-    &__num {
-      margin: 0 32px;
-      width: 11px;
-      height: 27px;
-      font-size: 18px;
-      font-weight: bold;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: normal;
-      letter-spacing: normal;
-      color: #879399;
-    }
-
-    &__btn {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 32px;
-      height: 32px;
-      background-color: #fff;
-      border: 1px solid #eaf1f5;
-      border-radius: 50%;
-      font-size: 24px;
-
-      &--prev {
-        .pager__btn__icon {
-          transform: translateX(-1px);
-        }
-      }
-
-      &--next {
-        .pager__btn__icon {
-          transform: translateX(1px);
-        }
-      }
-    }
-  }
+  margin: 48px auto 64px;
+  min-width: 140px;
 `;
 
+const PagerButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  background-color: ${COLORS.WHITE};
+  border: 1px solid ${COLORS.LIGHT_GRAY};
+  border-radius: 50%;
+  font-size: 24px;
+`;
 
-export default class Pager extends React.Component<PagerProps, any> {
-
-  constructor(props: PagerProps) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <PagerWrapper>
-        <div className="pager__btn pager__btn--prev">
-          <span className="pager__btn__icon">
-            <FontAwesomeIcon icon={faAngleLeft} color="#879399" />
-          </span>
-        </div>
-
-        <span className="pager__num">4</span>
-
-        <div className="pager__btn pager__btn--next">
-          <span className="pager__btn__icon">
-            <FontAwesomeIcon icon={faAngleRight} color="#879399" />
-          </span>
-        </div>
-      </PagerWrapper>
-    );
-  }
+interface PagerButtonIconWrapperProps {
+  transX?: number;
 }
 
+const PagerButtonIconWrapper = styled.div<PagerButtonIconWrapperProps>`
+  transform: translateX(${props => props.transX}px);
+`;
+
+const PagerCurrentPageNum = styled.span`
+  margin: 0 32px;
+  height: 27px;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: normal;
+  color: ${COLORS.GRAY};
+`;
+
+const Pager = (props: PagerProps) => {
+  return (
+    <PagerInner>
+      <PagerButton>
+        <PagerButtonIconWrapper transX={-1}>
+          <FontAwesomeIcon icon={faAngleLeft} color={COLORS.GRAY} />
+        </PagerButtonIconWrapper>
+      </PagerButton>
+
+      <PagerCurrentPageNum>4</PagerCurrentPageNum>
+
+      <PagerButton>
+        <PagerButtonIconWrapper transX={1}>
+          <FontAwesomeIcon icon={faAngleRight} color={COLORS.GRAY} />
+        </PagerButtonIconWrapper>
+      </PagerButton>
+    </PagerInner>
+  )
+}
+
+export default Pager;
