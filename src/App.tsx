@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Route, Switch, withRouter } from "react-router-dom";
-import './App.css';
 import { inject, observer } from 'mobx-react';
+
 import Top from "./pages/Top";
 import MyPage from "./pages/MyPage";
+
+import './App.css';
 
 @inject('routing')
 @observer

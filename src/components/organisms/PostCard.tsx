@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { observer, inject } from 'mobx-react';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { observer, inject } from 'mobx-react';
 import { RouterStore } from 'mobx-react-router';
+import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTag, faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { faNewspaper, faHeart, faComment } from '@fortawesome/free-regular-svg-icons';
+
+import { COLORS } from '../../constants/index';
 
 export interface PostCardProps {
   title: string;
@@ -18,8 +20,8 @@ export interface PostCardProps {
 const PostCardWrapper = styled.li`
   width: 100%;
   padding: 24px;
-  background-color: #fff;
-  border: 1px solid #eaf1f5;
+  background-color: ${COLORS.WHITE};
+  border: 1px solid ${COLORS.LIGHT_GRAY};
 
   & + & {
     margin-top: 24px;
@@ -30,11 +32,8 @@ const PostCardWrapper = styled.li`
       margin: 0 0 11px;
       font-size: 18px;
       font-weight: 500;
-      font-style: normal;
-      font-stretch: normal;
       line-height: 1.5;
-      letter-spacing: normal;
-      color: #292f33;
+      color: ${COLORS.CHARCOAL_GRAY1};
     }
 
     &__tag-group {
@@ -59,24 +58,17 @@ const PostCardWrapper = styled.li`
       &__name {
         font-size: 12px;
         font-weight: 500;
-        font-style: normal;
-        font-stretch: normal;
         line-height: 1;
-        letter-spacing: normal;
-        color: #3e474d;
+        color: ${COLORS.CHARCOAL_GRAY2};
       }
     }
 
     &__text {
       margin-bottom: 19px;
-      font-family: NotoSansCJKjp;
       font-size: 14px;
       font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
       line-height: 1.5;
-      letter-spacing: normal;
-      color: #3e474d;
+      color: ${COLORS.CHARCOAL_GRAY2};
     }
 
     &__bottom {
@@ -86,8 +78,7 @@ const PostCardWrapper = styled.li`
 
     &__reaction {
       display: flex;
-      justify-content: flex-start;
-      color: #3e474d;
+      color: ${COLORS.CHARCOAL_GRAY2};
     }
 
     &__like {
@@ -103,10 +94,7 @@ const PostCardWrapper = styled.li`
       &__num {
         font-size: 12px;
         font-weight: 500;
-        font-style: normal;
-        font-stretch: normal;
         line-height: 1;
-        letter-spacing: normal;
       }
     }
 
@@ -123,23 +111,17 @@ const PostCardWrapper = styled.li`
       &__num {
         font-size: 12px;
         font-weight: 500;
-        font-style: normal;
-        font-stretch: normal;
         line-height: 1;
-        letter-spacing: normal;
       }
     }
 
     &__author {
       display: flex;
       align-items: center;
-      color: #3e474d;
+      color: ${COLORS.CHARCOAL_GRAY2};
       font-size: 12px;
       font-weight: 500;
-      font-style: normal;
-      font-stretch: normal;
       line-height: 1;
-      letter-spacing: normal;
 
       &__icon {
         display: inline-block;
@@ -152,10 +134,6 @@ const PostCardWrapper = styled.li`
 
       &__name {
         margin-right: 8px;
-      }
-
-      &__time {
-
       }
     }
   }
@@ -173,7 +151,7 @@ export default class PostCard extends React.Component<PostCardProps, any> {
       return (
         <li className="post-card__tag" key={idx}>
           <span className="post-card__tag__icon">
-            <FontAwesomeIcon icon={faTag} color="#a8b7bf" />
+            <FontAwesomeIcon icon={faTag} color={COLORS.COOL_GRAY} />
           </span>
           <span className="post-card__tag__name">{tag}</span>
         </li>
@@ -194,13 +172,13 @@ export default class PostCard extends React.Component<PostCardProps, any> {
           <div className="post-card__reaction">
             <div className="post-card__like">
               <span className="post-card__like__icon">
-                <FontAwesomeIcon icon={faHeart} color="#879399" />
+                <FontAwesomeIcon icon={faHeart} color={COLORS.GRAY} />
               </span>
               <span className="post-card__like__num">{this.props.likeNum}</span>
             </div>
             <div className="post-card__comment">
               <span className="post-card__comment__icon">
-                <FontAwesomeIcon icon={faComment} color="#879399" />
+                <FontAwesomeIcon icon={faComment} color={COLORS.GRAY} />
               </span>
               <span className="post-card__comment__num">{this.props.commentNum}</span>
             </div>

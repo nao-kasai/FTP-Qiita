@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { Router } from 'react-router';
 import * as serviceWorker from './serviceWorker';
 import createBrowserHistory from 'history/createBrowserHistory';
+import { configure } from 'mobx';
 import { Provider } from 'mobx-react';
 import { RouterStore, syncHistoryWithStore } from 'mobx-react-router';
-import { Router } from 'react-router';
-import { configure } from 'mobx';
+
+import App from './App';
+
+import './index.css';
 
 configure({
   computedRequiresReaction: true
