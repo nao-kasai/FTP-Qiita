@@ -1,7 +1,8 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+
 import Header from '../components/organisms/Header';
 
 export interface MyPageProps {
@@ -16,7 +17,7 @@ export default class MyPage extends React.Component<MyPageProps, any> {
       <MyPageWrapper>
         <Header />
         MyPage<br/>
-        <Link to={"/"}>[ HOME ]</Link>
+        <Link to="/">[ HOME ]</Link>
       </MyPageWrapper>
     );
   }
