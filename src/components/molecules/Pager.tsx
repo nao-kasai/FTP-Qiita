@@ -11,7 +11,7 @@ const PagerInner = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 48px auto 64px;
+  margin: 48px auto; /* TODO: margin-bottomが、40〜117pxの範囲でまちまちなので、一旦48pxで仮設定*/
   min-width: 140px;
 `;
 
@@ -22,9 +22,11 @@ const PagerButton = styled.button`
   width: 32px;
   height: 32px;
   background-color: ${COLORS.WHITE};
+  font-size: 24px;
   border: 1px solid ${COLORS.LIGHT_GRAY};
   border-radius: 50%;
-  font-size: 24px;
+  outline: none;
+  cursor: pointer;
 `;
 
 interface PagerButtonIconWrapperProps {
