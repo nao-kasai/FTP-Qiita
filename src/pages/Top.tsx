@@ -10,7 +10,7 @@ import Header from '../components/organisms/Header';
 import PostCard from '../components/organisms/PostCard';
 import Pager from '../components/molecules/Pager';
 
-import { COLORS } from '../constants/index';
+import { COLORS, HEADER_HEIGHT } from '../constants/index';
 
 export interface HomeProps {
   routing: RouterStore;
@@ -22,32 +22,28 @@ const PageWrapper = styled.div`
   background-color: ${COLORS.PALE_GRAY};
 `;
 
-const PageTitle = styled.h2`
+const PageTitleWrapper = styled.h2`
   display: flex;
   align-items: center;
   margin: 0 0 24px;
+`;
 
-  .page-title {
-    &__icon {
-      margin-right: 7px;
-      font-size: 28px;
-    }
-    &__title {
-      font-size: 24px;
-      font-weight: 500;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: normal;
-      letter-spacing: normal;
-      color: ${COLORS.CHARCOAL_GRAY2};
-    }
-  }
+const PageTitle = styled.div`
+  font-size: 24px;
+  font-weight: 500;
+  line-height: normal;
+  color: ${COLORS.CHARCOAL_GRAY2};
+`;
+
+const PageTitleIcon = styled.span`
+  margin-right: 7px;
+  font-size: 28px;
 `;
 
 const PageBody = styled.div`
   width: 100%;
   max-width: 960px;
-  min-height: calc(100vh - 64px); /* Header height*/
+  min-height: calc(100vh - ${HEADER_HEIGHT}px);
   margin: 0 auto;
   padding: 33px 0 71px;
 `;
@@ -66,12 +62,14 @@ export default class Home extends React.Component<HomeProps, any> {
         <Header />
 
         <PageBody>
-          <PageTitle>
-            <span className="page-title__icon">
+
+          <PageTitleWrapper>
+            <PageTitleIcon>
               <FontAwesomeIcon icon={faNewspaper} color={COLORS.CHARCOAL_GRAY2} />
-            </span>
-            <span className="page-title__title">注目記事</span>
-          </PageTitle>
+            </PageTitleIcon>
+
+            <PageTitle>注目記事</PageTitle>
+          </PageTitleWrapper>
 
           <PostCardList>
             <PostCard
