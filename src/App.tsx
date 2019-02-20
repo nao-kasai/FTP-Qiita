@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
-import './App.css';
+import { Route, Switch, withRouter } from "react-router-dom";
 import { inject, observer } from 'mobx-react';
-import Top from './pages/Top';
-import MyPage from './pages/MyPage';
+
+import Top from "./pages/Top";
+import MyPage from "./pages/MyPage";
 import Detail from './pages/Detail';
 import Page404 from './pages/Page404';
 import Login from './pages/Login';
+
+import './App.css';
 
 @inject('routing')
 @observer

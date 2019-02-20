@@ -31,3 +31,17 @@ ul, li {
   padding: 0;
   list-style: none;
 }
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+  text-decoration: none;
+  color: #000;
+}
+
+a img {
+  border-width: 0px;
+  border-style: none;
+  background: transparent;
+}

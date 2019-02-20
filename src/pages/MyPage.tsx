@@ -1,10 +1,9 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithubSquare, faFacebookSquare, faTwitterSquare} from  '@fortawesome/free-brands-svg-icons';
-
 
 import Header from '../components/organisms/Header';
 import PostCard from '../components/organisms/PostCard';
@@ -240,7 +239,7 @@ export default class MyPage extends React.Component<MyPageProps, any> {
         </MyPageBody>
         
         MyPage<br/>
-        <Link to={"/"}>[ HOME ]</Link>
+        <Link to="/">[ HOME ]</Link>
       </MyPageWrapper>
     );
   }

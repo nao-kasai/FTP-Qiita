@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { observer, inject } from 'mobx-react';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { observer, inject } from 'mobx-react';
 import { RouterStore } from 'mobx-react-router';
+import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTag, faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import { faNewspaper, faHeart, faComment } from '@fortawesome/free-regular-svg-icons';
+import { faTag } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faComment } from '@fortawesome/free-regular-svg-icons';
+
+import { COLORS } from '../../constants/index';
 
 export interface PostCardProps {
   title: string;
@@ -15,205 +17,158 @@ export interface PostCardProps {
   commentNum: number;
 }
 
-const PostCardWrapper = styled.li`
+const PostCardInner = styled.li`
   width: 100%;
   padding: 24px;
-  background-color: #fff;
-  border: 1px solid #eaf1f5;
+  background-color: ${COLORS.WHITE};
+  border: 1px solid ${COLORS.LIGHT_GRAY};
+  transition: border .3s;
+
+  &:hover {
+   border-color: ${COLORS.LIGHT_GREEN};
+  }
 
   & + & {
     margin-top: 24px;
   }
+`;
 
-  .post-card {
-    &__title {
-      margin: 0 0 11px;
-      font-size: 18px;
-      font-weight: 500;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1.5;
-      letter-spacing: normal;
-      color: #292f33;
-    }
+const PostCardTitle = styled.h3`
+  margin: 0 0 11px;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: ${COLORS.CHARCOAL_GRAY1};
+`;
 
-    &__tag-group {
-      display: flex;
-      margin-bottom: 11px;
-    }
+const PostCardTagGroup = styled.ul`
+  display: flex;
+  margin-bottom: 11px;
+`;
 
-    &__tag {
-      display: flex;
-      align-items: center;
-      margin-right: 20px;
+const PostCardTag = styled.li`
+  display: flex;
+  align-items: center;
 
-      &:last-child {
-        margin-right: 0;
-      }
-
-      &__icon {
-        margin-right: 8px;
-        font-size: 16px;
-      }
-
-      &__name {
-        font-size: 12px;
-        font-weight: 500;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1;
-        letter-spacing: normal;
-        color: #3e474d;
-      }
-    }
-
-    &__text {
-      margin-bottom: 19px;
-      font-family: NotoSansCJKjp;
-      font-size: 14px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1.5;
-      letter-spacing: normal;
-      color: #3e474d;
-    }
-
-    &__bottom {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    &__reaction {
-      display: flex;
-      justify-content: flex-start;
-      color: #3e474d;
-    }
-
-    &__like {
-      display: flex;
-      align-items: center;
-      margin-right: 20px;
-
-      &__icon {
-        margin-right: 8px;
-        font-size: 16px;
-      }
-
-      &__num {
-        font-size: 12px;
-        font-weight: 500;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1;
-        letter-spacing: normal;
-      }
-    }
-
-    &__comment {
-      display: flex;
-      align-items: center;
-      margin-right: 20px;
-
-      &__icon {
-        margin-right: 8px;
-        font-size: 16px;
-      }
-
-      &__num {
-        font-size: 12px;
-        font-weight: 500;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: 1;
-        letter-spacing: normal;
-      }
-    }
-
-    &__author {
-      display: flex;
-      align-items: center;
-      color: #3e474d;
-      font-size: 12px;
-      font-weight: 500;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1;
-      letter-spacing: normal;
-
-      &__icon {
-        display: inline-block;
-        margin-right: 8px;
-        width: 24px;
-        height: 24px;
-        background: url(images/common/oval@2x.png) no-repeat;
-        background-size: 100%;
-      }
-
-      &__name {
-        margin-right: 8px;
-      }
-
-      &__time {
-
-      }
-    }
+  &:not(:last-child) {
+    margin-right: 20px;
   }
 `;
 
-export default class PostCard extends React.Component<PostCardProps, any> {
+const PostCardTagIcon = styled.span`
+  margin-right: 8px;
+  font-size: 16px;
+`;
 
-  constructor(props: PostCardProps) {
-    super(props);  
-  }
+const PostCardTagName = styled.span`
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  color: ${COLORS.CHARCOAL_GRAY2};
+`;
 
-  render() {
+const PostCardText = styled.div`
+  margin-bottom: 19px;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.5;
+  color: ${COLORS.CHARCOAL_GRAY2};
+`;
 
-    const tagItems = this.props.tags.map( (tag, idx) => {
-      return (
-        <li className="post-card__tag" key={idx}>
-          <span className="post-card__tag__icon">
-            <FontAwesomeIcon icon={faTag} color="#a8b7bf" />
-          </span>
-          <span className="post-card__tag__name">{tag}</span>
-        </li>
-      );
-    })
+const PostCardBottomSection = styled.div`
+  display: flex;
+`;
 
+const PostCardReaction = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  color: ${COLORS.CHARCOAL_GRAY2};
+`;
+
+const PostCardReactionIcon = styled.span`
+  margin-right: 8px;
+  font-size: 16px;
+`;
+
+const PostCardReactionNum = styled.span`
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+`;
+
+const PostCardAuthor = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  color: ${COLORS.CHARCOAL_GRAY2};
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+`;
+
+const PostCardAuthorIcon = styled.span`
+  display: inline-block;
+  margin-right: 8px;
+  width: 24px;
+  height: 24px;
+  background: url(images/common/oval@2x.png) no-repeat;
+  background-size: 100%;
+`;
+
+const PostCardAuthorName = styled.span`
+  margin-right: 8px;
+`;
+
+const PostCardAuthorTime = styled.span`
+`;
+
+const PostCard = (props:PostCardProps) => {
+
+  const tagItems = props.tags.map((tag, idx) => {
     return (
-      <PostCardWrapper>
-        <h3 className="post-card__title">{this.props.title}</h3>
+      <PostCardTag key={idx}>
+        <PostCardTagIcon>
+          <FontAwesomeIcon icon={faTag} color={COLORS.COOL_GRAY} />
+        </PostCardTagIcon>
 
-        <ul className="post-card__tag-group">
-          {tagItems}
-        </ul>
-
-        <div className="post-card__text">{this.props.text}</div>
-
-        <div className="post-card__bottom">
-          <div className="post-card__reaction">
-            <div className="post-card__like">
-              <span className="post-card__like__icon">
-                <FontAwesomeIcon icon={faHeart} color="#879399" />
-              </span>
-              <span className="post-card__like__num">{this.props.likeNum}</span>
-            </div>
-            <div className="post-card__comment">
-              <span className="post-card__comment__icon">
-                <FontAwesomeIcon icon={faComment} color="#879399" />
-              </span>
-              <span className="post-card__comment__num">{this.props.commentNum}</span>
-            </div>
-          </div>
-
-          <div className="post-card__author">
-            <span className="post-card__author__icon"></span>
-            <div className="post-card__author__name">tamappe</div>
-            <div className="post-card__author__time">@1時間前</div>
-          </div>
-        </div>
-      </PostCardWrapper>
+        <PostCardTagName>{tag}</PostCardTagName>
+      </PostCardTag>
     );
-  }
+  });
+
+  return (
+    <PostCardInner>
+      <PostCardTitle>{props.title}</PostCardTitle>
+      <PostCardTagGroup>{tagItems}</PostCardTagGroup>
+      <PostCardText>{props.text}</PostCardText>
+
+      <PostCardBottomSection>
+        <PostCardReaction>
+          <PostCardReactionIcon>
+            <FontAwesomeIcon icon={faHeart} color={COLORS.GRAY} />
+          </PostCardReactionIcon>
+            
+          <PostCardReactionNum>{props.likeNum}</PostCardReactionNum>
+        </PostCardReaction>
+
+        <PostCardReaction>
+          <PostCardReactionIcon>
+            <FontAwesomeIcon icon={faComment} color={COLORS.GRAY} />
+          </PostCardReactionIcon>
+            
+          <PostCardReactionNum>{props.commentNum}</PostCardReactionNum>
+        </PostCardReaction>
+
+        <PostCardAuthor>
+          <PostCardAuthorIcon/>
+          <PostCardAuthorName>tamappe</PostCardAuthorName>
+          <PostCardAuthorTime>@1時間前</PostCardAuthorTime>
+        </PostCardAuthor>
+          
+      </PostCardBottomSection>
+    </PostCardInner>
+  );
 }
 
+export default PostCard;

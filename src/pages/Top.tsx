@@ -1,14 +1,16 @@
 import * as React from 'react';
-import { observer, inject } from 'mobx-react';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { observer, inject } from 'mobx-react';
 import { RouterStore } from 'mobx-react-router';
+import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faNewspaper } from '@fortawesome/free-regular-svg-icons';
 
 import Header from '../components/organisms/Header';
 import PostCard from '../components/organisms/PostCard';
 import Pager from '../components/molecules/Pager';
+
+import { COLORS, HEADER_HEIGHT } from '../constants/index';
 
 export interface HomeProps {
   routing: RouterStore;
@@ -17,35 +19,31 @@ export interface HomeProps {
 const PageWrapper = styled.div`
   width: 100%;
   height: 100%;
-  background-color: #fafbfc;
+  background-color: ${COLORS.PALE_GRAY};
 `;
 
-const PageTitle = styled.h2`
+const PageTitleWrapper = styled.h2`
   display: flex;
   align-items: center;
   margin: 0 0 24px;
+`;
 
-  .page-title {
-    &__icon {
-      margin-right: 7px;
-      font-size: 28px;
-    }
-    &__title {
-      font-size: 24px;
-      font-weight: 500;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: normal;
-      letter-spacing: normal;
-      color: #3e474d;
-    }
-  }
+const PageTitle = styled.div`
+  font-size: 24px;
+  font-weight: 500;
+  line-height: normal;
+  color: ${COLORS.CHARCOAL_GRAY2};
+`;
+
+const PageTitleIcon = styled.span`
+  margin-right: 7px;
+  font-size: 28px;
 `;
 
 const PageBody = styled.div`
   width: 100%;
   max-width: 960px;
-  min-height: calc(100vh - 64px); /* Header height*/
+  min-height: calc(100vh - ${HEADER_HEIGHT}px);
   margin: 0 auto;
   padding: 33px 0 71px;
 `;
@@ -64,12 +62,14 @@ export default class Home extends React.Component<HomeProps, any> {
         <Header />
 
         <PageBody>
-          <PageTitle>
-            <span className="page-title__icon">
-              <FontAwesomeIcon icon={faNewspaper} color="#3e474d" />
-            </span>
-            <span className="page-title__title">注目記事</span>
-          </PageTitle>
+
+          <PageTitleWrapper>
+            <PageTitleIcon>
+              <FontAwesomeIcon icon={faNewspaper} color={COLORS.CHARCOAL_GRAY2} />
+            </PageTitleIcon>
+
+            <PageTitle>注目記事</PageTitle>
+          </PageTitleWrapper>
 
           <PostCardList>
             <PostCard

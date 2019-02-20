@@ -1,78 +1,93 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { COLORS } from '../../constants/index';
 
 export interface HeaderProps {
 }
 
-const HeaderWrapper = styled.div`
+const HeaderInner = styled.div`
   display: flex;
-  justify-content: space-between;
+  align-items: center;
   padding: 0 48px;
   width: 100%;
   height: 64px;
-  background-color: #fff;
-  border-bottom: 1px solid #eaf1f5;
+  background-color: ${COLORS.WHITE};
+  border-bottom: 1px solid ${COLORS.LIGHT_GRAY};
+`;
 
-  .header {
-    &__left {
-      display: flex;
-      align-items: center;
+const PageNav = styled.ul`
+  display: flex;
 
-    .logo {
-        margin-right: 64px;
-        width: 75px;
-        height: 26px;
-        background: url(images/common/qiita-logo@2x.png) no-repeat;
-        background-size: 100%;
-      }
+  > li {
+    position: relative;
 
-      > ul {
-        li {
-          position: relative;
-
-          &.is-active:after {
-            position: absolute;
-            bottom: -23px;
-            left: 0;
-            display: block;
-            content: "";
-            width: 48px;
-            height: 2px;
-            background-color: #A7E07E;
-          }
-        }
-      }
+    &.is-active:after {
+      position: absolute;
+      bottom: -23px;
+      left: 0;
+      display: block;
+      content: "";
+      width: 100%;
+      height: 2px;
+      background-color: ${COLORS.PALE_GREEN};
     }
 
-    &__right {
-      display: flex;
-      align-items: center;
-      .user-icon {
-        display: block;
-        width: 36px;
-        height: 36px;
-        background: url(images/common/user@2x.png) no-repeat;
-        background-size: 100%;
-      }
+    &:not(:last-child) {
+      margin-right: 32px;
     }
   }
 `;
 
+const UserIcon = styled.span`
+  display: block;
+  margin-left: auto;
+  width: 36px;
+  height: 36px;
+  background: url(images/common/user@2x.png) no-repeat;
+  background-size: 100%;
+`;
+
+const Logo = styled.h1`
+  margin-right: 64px;
+  width: 75px;
+  height: 26px;
+  background: url(images/common/qiita-logo@2x.png) no-repeat;
+  background-size: 100%;
+`;
+
+const pageNavListAry = [
+  {
+    name: 'ホーム',
+    href: '/',
+  },
+  // {
+  //   name: 'マイページ',
+  //   href: '/mypage',
+  // }
+];
+
 export default class Header extends React.Component<HeaderProps, any> {
   public render() {
-    return (
-      <HeaderWrapper>
-        <div className="header__left">
-          <h1 className="logo"></h1>
-          <ul>
-            <li className="is-active">ホーム</li>
-          </ul>
-        </div>
+    
+    const pageNavList = pageNavListAry.map((item, idx) => {
+      return (
+        <li key={idx} className="is-active">{item.name}</li>
+        
+        // <li key={idx} className="is-active">
+        //   <Link to={item.href}>{item.name}</Link>
+        // </li>
+      );
+    });
 
-        <div className="header__right">
-          <span className="user-icon"></span>
-        </div>
-      </HeaderWrapper>
+    return (
+      <HeaderInner>
+        <Logo />
+        <PageNav>
+          {pageNavList}
+        </PageNav>
+        <UserIcon />
+      </HeaderInner>
     );
   }
 }
