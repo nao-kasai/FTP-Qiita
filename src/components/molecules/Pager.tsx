@@ -39,7 +39,6 @@ const PagerButtonIconWrapper = styled.div<PagerButtonIconWrapperProps>`
 
 const PagerCurrentPageNum = styled.span`
   margin: 0 32px;
-  height: 27px;
   font-size: 18px;
   font-weight: bold;
   line-height: normal;
