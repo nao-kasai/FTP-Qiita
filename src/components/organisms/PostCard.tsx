@@ -9,6 +9,8 @@ import { faHeart, faComment } from '@fortawesome/free-regular-svg-icons';
 
 import { COLORS } from '../../constants/index';
 
+import Tag from '../atoms/Tag';
+
 export interface PostCardProps {
   title: string;
   tags: string[];
@@ -44,27 +46,6 @@ const PostCardTitle = styled.h3`
 const PostCardTagGroup = styled.ul`
   display: flex;
   margin-bottom: 11px;
-`;
-
-const PostCardTag = styled.li`
-  display: flex;
-  align-items: center;
-
-  &:not(:last-child) {
-    margin-right: 20px;
-  }
-`;
-
-const PostCardTagIcon = styled.span`
-  margin-right: 8px;
-  font-size: 16px;
-`;
-
-const PostCardTagName = styled.span`
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1;
-  color: ${COLORS.CHARCOAL_GRAY2};
 `;
 
 const PostCardText = styled.div`
@@ -124,16 +105,9 @@ const PostCardAuthorTime = styled.span`
 `;
 
 const PostCard = (props:PostCardProps) => {
-
   const tagItems = props.tags.map((tag, idx) => {
     return (
-      <PostCardTag key={idx}>
-        <PostCardTagIcon>
-          <FontAwesomeIcon icon={faTag} color={COLORS.COOL_GRAY} />
-        </PostCardTagIcon>
-
-        <PostCardTagName>{tag}</PostCardTagName>
-      </PostCardTag>
+      <Tag key={idx} tag={tag} margin={20}/>
     );
   });
 

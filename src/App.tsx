@@ -22,7 +22,7 @@ class App extends Component<any, any> {
           <Route path="/mypage" exact component={MyPage} />
           <Route path="/detail" exact component={Detail} />
           <Route path="/login" exact component={Login} />
-          <Route path="/404" exact component={Page404} />
+          <Route path="" exact component={Page404} />
         </Switch>
       </div>
     );

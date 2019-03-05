@@ -13,6 +13,9 @@ import Pager from '../components/molecules/Pager';
 
 export interface MyPageProps {
 }
+export interface MyPageState {
+  selectedTab: number;
+}
 
 const MyPageWrapper = styled.div`
   width: 100%;
@@ -187,7 +190,15 @@ const PostCardButtonIconWrapper = styled.div`
 `;
 
 @observer
-export default class MyPage extends React.Component<MyPageProps, any> {
+export default class MyPage extends React.Component<MyPageProps, MyPageState> {
+
+  constructor(props: MyPageProps) {
+    super(props);
+
+    this.state = {
+      selectedTab: 0,
+    }
+  }
     
   public render() {
 
