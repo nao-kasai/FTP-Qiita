@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithubSquare, faFacebookSquare, faTwitterSquare} from  '@fortawesome/free-brands-svg-icons';
+import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import { faGithubSquare, faFacebookSquare, faTwitterSquare } from  '@fortawesome/free-brands-svg-icons';
 
+import { COLORS } from '../constants/index';
 import Header from '../components/organisms/Header';
 import PostCard from '../components/organisms/PostCard';
 import Pager from '../components/molecules/Pager';
@@ -16,9 +18,8 @@ const MyPageWrapper = styled.div`
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  background-color: #fafbfc;
+  background-color: ${COLORS.PALE_GRAY};
 `
-
 const MyPageBody = styled.div`
   max-width: 960px;
   margin: 0 auto;
@@ -26,214 +27,300 @@ const MyPageBody = styled.div`
 
 const MyPageBodyColmunWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
 `;
 
-const MyPageBodyLeftColmun = styled.div`
+const UserProfile = styled.div`
   width: 100%;
   max-width: 280px;
   margin-top: 32px;
-  margin-right: 32px;
+  margin-right: auto;
+`;
 
-  .user-profile {
-    &__img {
-      margin-bottom: 16px;
-      width: 128px;
-      height: 128px;
-      border-radius: 8px;
-      border: 1px solid #e3edf3;
-    }
-  
-    &__name {
-      margin-bottom: 8px;
-      font-size: 18px;
-      font-weight: 500;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1.5;
-      letter-spacing: normal;
-      color: #292f33;
-    }
-  
-    &__account {
-      margin-bottom: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1.5;
-      letter-spacing: normal;
-      color: #879399;
-    }
-  
-    &__sns-group {
-      display: flex;
-      align-items: center;
-      margin-bottom: 24px;
-    }
+const UserProfileImg = styled.div`
+  margin-bottom: 16px;
+  width: 128px;
+  height: 128px;
+  border-radius: 8px;
+  border: 1px solid ${COLORS.LIGHT_BLUE};
+`;
 
-    &__sns {
-      font-size: 28px;
-      margin-right: 16px;
+const UserProfileName = styled.div`
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: ${COLORS.CHARCOAL_GRAY1};
+`;
 
-      &:last-child {
-        margin-right: 0;
-      }
-    }
+const UserProfileAccount = styled.div`
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: ${COLORS.GRAY};
+`;
 
-    &__description {
-      margin-bottom: 24px;
-      font-size: 14px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1.5;
-      letter-spacing: normal;
-      color: #3e474d;
-    }
-  
-    &__follow-info {
-      display: flex;
-      font-size: 14px;
-      font-weight: 500;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1.57;
-      letter-spacing: normal;
-      color: #292f33;
-    }
-  
-    &__follow {
-      margin-right: 16px;
-    }
-  
-    &__followers {
+const UserProfileSnsGroup = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+`;
 
-    }
+const UserProfileSnsIcon = styled.span`
+  font-size: 28px;
+
+  &:not(:last-child) {
+    margin-right: 16px;
   }
 `;
 
-const MyPageBodyRightColmun = styled.div`
+const UserProfileDescription = styled.div`
+  margin-bottom: 24px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: ${COLORS.CHARCOAL_GRAY2};
+`;
+
+const UserProfileFollowInfo = styled.div`
+  display: flex;
+`;
+
+const UserProfileFollowInfoData = styled.div`
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.57;
+  color: ${COLORS.CHARCOAL_GRAY1};
+
+  & + & {
+    margin-left: 16px;
+  }
+`;
+
+const ArticleSection = styled.div`
   width: 100%;
   max-width: 648px;
   margin-top: 24px;
+`;
 
-  .article-group {
-    &__header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 15px;
-    }
+const ArticleGroupHeader = styled.div`
+  display: flex;
+  margin-bottom: 15px;
+`;
 
-    &__tabs {
-      display: flex;
-    }
+const ArticleGroupTabs = styled.ul`
+  display: flex;
+`;
 
-    &__tab {
-      margin-right: 32px;
-      padding-bottom: 7px;
-      font-size: 16px;
-      font-weight: 500;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: normal;
-      letter-spacing: normal;
-      color: #292f33;
+const ArticleGroupTabItem = styled.li`
+  padding-bottom: 7px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: normal;
+  color: ${COLORS.CHARCOAL_GRAY1};
 
-      &:last-child {
-        margin-right: 0;
-      }
-
-      &.is-active {
-        border-bottom: 2px solid #55c500;
-      }
-    }
-
-    &__btn {
-      padding: 8px 23px;
-      background-color: #fff;
-      font-size: 14px;
-      font-weight: bold;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1;
-      letter-spacing: normal;
-      color: #4aac00;
-      border: 1px solid #4aac00;
-      border-radius: 4px;
-      cursor: pointer;
-      outline: none;
-      appearance: none;
-    }
-
+  & + & {
+    margin-left: 32px;
   }
-`; 
+
+  &.is-active {
+    border-bottom: 2px solid ${COLORS.LIGHT_GREEN};
+  }
+`;
+
+const ContributeButton = styled.button`
+  padding: 8px 23px;
+  background-color: ${COLORS.WHITE};
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1;
+  color: ${COLORS.GREEN};
+  border: 1px solid ${COLORS.GREEN};
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+
+  ${ArticleGroupHeader} & {
+    margin-left: auto;
+  }
+`;
+
+const ArticleGroupBody = styled.div``;
 
 const PostCardList = styled.ul`
-  width: 100%;
+`;
+
+const PostCardEditorUI = styled.li`
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 8px;
+  margin-bottom: 24px;
+`;
+
+const PostCardBtn = styled.button`
+  width: 32px;
+  height: 32px;
+  background-color: ${COLORS.WHITE};
+  border: 1px solid ${COLORS.LIGHT_GRAY};
+  border-radius: 50%;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+`;
+
+const PostCardEditButton = styled(PostCardBtn)``;
+
+const PostCardDeleteButton = styled(PostCardBtn)`
+  margin-left: 16px;
+`;
+
+const PostCardButtonIconWrapper = styled.div`
+  ${PostCardEditButton} & {
+    font-size: 14px;
+    transform: translate(1px, -1px);
+  }
+
+  ${PostCardDeleteButton} & {
+    font-size: 16px;
+    transform: translateY(-1px);
+  }
 `;
 
 @observer
 export default class MyPage extends React.Component<MyPageProps, any> {
+    
   public render() {
+
+    const postCardData = [
+      {
+        title: 'iOSエンジニアがフリーランス案件の面談で良く聞かれる質問集をまとめてみた',
+        tags: ['フリーランス', 'Swift', 'キャリア', 'iOS'],
+        text: 'フリーランスのiOSエンジニアです。最近はiOSとAndroidの両刀使いになりました。わかる言語は英語/Swift/Objective-C/Java/Kotlin/Ruby/PHPです。注目のトレンドはブロックチェーンでDAppsです。趣味はポーカーとスプラトゥーン2。',
+        likeNum: 327,
+        commentNum: 1728,
+      },
+      {
+        title: 'iOSエンジニアがフリーランス案件の面談で良く聞かれる質問集をまとめてみた',
+        tags: ['フリーランス', 'Swift', 'キャリア', 'iOS'],
+        text: 'フリーランスのiOSエンジニアです。最近はiOSとAndroidの両刀使いになりました。わかる言語は英語/Swift/Objective-C/Java/Kotlin/Ruby/PHPです。注目のトレンドはブロックチェーンでDAppsです。趣味はポーカーとスプラトゥーン2。',
+        likeNum: 327,
+        commentNum: 1728,
+      },
+      {
+        title: 'iOSエンジニアがフリーランス案件の面談で良く聞かれる質問集をまとめてみた',
+        tags: ['フリーランス', 'Swift', 'キャリア', 'iOS'],
+        text: 'フリーランスのiOSエンジニアです。最近はiOSとAndroidの両刀使いになりました。わかる言語は英語/Swift/Objective-C/Java/Kotlin/Ruby/PHPです。注目のトレンドはブロックチェーンでDAppsです。趣味はポーカーとスプラトゥーン2。',
+        likeNum: 327,
+        commentNum: 1728,
+      },
+      {
+        title: 'iOSエンジニアがフリーランス案件の面談で良く聞かれる質問集をまとめてみた',
+        tags: ['フリーランス', 'Swift', 'キャリア', 'iOS'],
+        text: 'フリーランスのiOSエンジニアです。最近はiOSとAndroidの両刀使いになりました。わかる言語は英語/Swift/Objective-C/Java/Kotlin/Ruby/PHPです。注目のトレンドはブロックチェーンでDAppsです。趣味はポーカーとスプラトゥーン2。',
+        likeNum: 327,
+        commentNum: 1728,
+      },
+
+    ];
+
+    const postCardListItem = postCardData.map((item, idx) => {
+      return (
+        <>
+          <PostCard
+            key = {idx}
+            title={item.title}
+            tags={item.tags}
+            text={item.text}
+            likeNum={item.likeNum}
+            commentNum={item.commentNum}
+          />
+
+          <PostCardEditorUI>
+            <PostCardEditButton>
+              <PostCardButtonIconWrapper>
+                <FontAwesomeIcon icon={faEdit} color={COLORS.GRAY} />
+              </PostCardButtonIconWrapper>
+            </PostCardEditButton>
+
+            <PostCardDeleteButton>
+              <PostCardButtonIconWrapper>
+                <FontAwesomeIcon icon={faTrashAlt} color={COLORS.GRAY} />
+              </PostCardButtonIconWrapper>
+            </PostCardDeleteButton>
+          </PostCardEditorUI>
+        </>
+      )
+    });
+
     return (
       <MyPageWrapper>
         <Header />
 
         <MyPageBody>
           <MyPageBodyColmunWrapper>
-            <MyPageBodyLeftColmun>
-              <div className="user-profile__img">userPhoto</div>
-              <div className="user-profile__name">Inaura いなうら 稲浦 Yuma ゆうま 悠馬</div>
-              <div className="user-profile__account">@YumaInaura</div>
-              <div className="user-profile__sns-group">
-                <span className="user-profile__sns">
+            <UserProfile>
+              <UserProfileImg>
+                userPhoto
+              </UserProfileImg>
+              
+              <UserProfileName>
+                Inaura いなうら 稲浦 Yuma ゆうま 悠馬
+              </UserProfileName>
+
+              <UserProfileAccount>
+                @YumaInaura
+              </UserProfileAccount>
+
+              <UserProfileSnsGroup>
+                <UserProfileSnsIcon>
                   <FontAwesomeIcon icon={faGithubSquare} color="#000" />
-                </span>
-                <span className="user-profile__sns">
+                </UserProfileSnsIcon>
+
+                <UserProfileSnsIcon>
                   <FontAwesomeIcon icon={faFacebookSquare} color="#4861a3" />
-                </span>
-                <span className="user-profile__sns">
+                </UserProfileSnsIcon>
+
+                <UserProfileSnsIcon>
                   <FontAwesomeIcon icon={faTwitterSquare} color="#55acee" />
-                </span>
-              </div>
-              <div className="user-profile__description">
-                🌾いなうらゆうま 稲浦悠馬 Yuma Inaura 🤖Rubyの父を見習い ひらがな表記 ✒アウトプットしないと死んじゃう症候群 ♥命を守るためのQiita療法 🙇‍♂️迷惑だったら全裸で謝罪 🤖大量ポストが生産性最大化 🤔妄想癖？ 😁絵文字大好きエンジニア 💃いつも踊っていたいプログラマ ☆ ALWAYS DANCING 📹 Youtuber経験をエンジニアリングに活用
-              </div>
-              <div className="user-profile__follow-info">
-                <div className="user-profile__follow">Follow: 88</div>
-                <div className="user-profile__follower">Follower: 135</div>
-              </div>
-            </MyPageBodyLeftColmun>
+                </UserProfileSnsIcon>
+              </UserProfileSnsGroup>
+              
+              <UserProfileDescription>
+                🌾いなうらゆうま 稲浦悠馬 Yuma Inaura 
+                🤖Rubyの父を見習い ひらがな表記 
+                ✒アウトプットしないと死んじゃう症候群 
+                ♥命を守るためのQiita療法 
+                🙇‍♂️迷惑だったら全裸で謝罪 
+                🤖大量ポストが生産性最大化 
+                🤔妄想癖？ 😁絵文字大好きエンジニア 
+                💃いつも踊っていたいプログラマ 
+                ☆ ALWAYS DANCING 📹 Youtuber経験をエンジニアリングに活用
+              </UserProfileDescription>
 
-            <MyPageBodyRightColmun>
-              <div className="article-group__header">
-                <ul className="article-group__tabs">
-                  <li className="article-group__tab is-active">作成した記事</li>
-                  <li className="article-group__tab">ストックした記事</li>
-                </ul>
+              <UserProfileFollowInfo>
+                <UserProfileFollowInfoData>Follow: 88</UserProfileFollowInfoData>
+                <UserProfileFollowInfoData>Follower: 135</UserProfileFollowInfoData>
+              </UserProfileFollowInfo>
+            </UserProfile>
 
-                <button className="article-group__btn">投稿する</button>
-              </div>
+            <ArticleSection>
+              <ArticleGroupHeader>
+                <ArticleGroupTabs>
+                  <ArticleGroupTabItem className="is-active">作成した記事</ArticleGroupTabItem>
+                  <ArticleGroupTabItem>ストックした記事</ArticleGroupTabItem>
+                </ArticleGroupTabs>
 
-              <PostCardList>
-                <PostCard
-                  title={"iOSエンジニアがフリーランス案件の面談で良く聞かれる質問集をまとめてみた"}
-                  tags={["フリーランス", "Swift", "キャリア", "iOS"]}
-                  text={"フリーランスのiOSエンジニアです。最近はiOSとAndroidの両刀使いになりました。わかる言語は英語/Swift/Objective-C/Java/Kotlin/Ruby/PHPです。注目のトレンドはブロックチェーンでDAppsです。趣味はポーカーとスプラトゥーン2。"}
-                  likeNum={327}
-                  commentNum={1728}
-                />
-                
-                <PostCard
-                  title={"iOSエンジニアがフリーランス案件の面談で良く聞かれる質問集をまとめてみた"}
-                  tags={["フリーランス", "Swift", "キャリア", "iOS"]}
-                  text={"フリーランスのiOSエンジニアです。最近はiOSとAndroidの両刀使いになりました。わかる言語は英語/Swift/Objective-C/Java/Kotlin/Ruby/PHPです。注目のトレンドはブロックチェーンでDAppsです。趣味はポーカーとスプラトゥーン2。"}
-                  likeNum={327}
-                  commentNum={1728}
-                  />
-              </PostCardList>
-            </MyPageBodyRightColmun>
+                <ContributeButton>投稿する</ContributeButton>
+              </ArticleGroupHeader>
+
+              <ArticleGroupBody>
+                <PostCardList>
+                  {postCardListItem}
+                </PostCardList>
+
+              </ArticleGroupBody>
+            </ArticleSection>
+
           </MyPageBodyColmunWrapper>
           <Pager />
         </MyPageBody>

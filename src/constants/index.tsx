@@ -11,6 +11,7 @@ export const COLORS = {
   GREEN: '#4aac00',
   PINK_RED: '#ff0061',
   DARK_RED: '#c53300',
+  LIGHT_BLUE: '#e3edf3',
 }
 
 export const HEADER_HEIGHT = 64;
